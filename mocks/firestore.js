@@ -305,7 +305,12 @@ FakeFirestore.DocumentReference = class {
   get() {
     query.mocks.mockGet(...arguments);
     const data = this._get();
-    return Promise.resolve(data);
+    const results = Promise.resolve(data);
+    if (this.query) {
+      this.query.filters = []
+      this.query.selectFields = undefined
+    }
+    return results
   }
 
   update(object) {
@@ -507,7 +512,10 @@ FakeFirestore.CollectionReference = class extends FakeFirestore.Query {
 
   get() {
     query.mocks.mockGet(...arguments);
-    return Promise.resolve(this._get());
+    const results = Promise.resolve(this._get());
+    this.filters = []
+    this.selectFields = undefined
+    return results
   }
 
   _get() {

@@ -22,7 +22,10 @@ class Query {
 
   get() {
     mockGet(...arguments);
-    return Promise.resolve(this._get());
+    const results = Promise.resolve(this._get());
+    this.filters = []
+    this.selectFields = undefined
+    return results
   }
 
   _get() {
